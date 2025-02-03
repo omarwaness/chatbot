@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        #chat-box {
+            width: 50%;
+            margin: 0 auto;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        #user-input {
+            width: 75%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        #send-btn {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #6200ea;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            transition: background 0.3s;
+        }
+        #send-btn:hover {
+            background-color: #3700b3;
+        }
+        #response {
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #bb86fc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AI Chatbot</h1>
+    <div id="chat-box">
+        <p><strong>Ask something:</strong></p>
+        <input type="text" id="user-input" placeholder="Type your question...">
+        <button id="send-btn">Send</button>
+        <p id="response"></p>
+    </div>
+
+    <script>
+        document.getElementById("send-btn").addEventListener("click", async function() {
+            const userInput = document.getElementById("user-input").value;
+            if (!userInput) return;
+
+            const responseElement = document.getElementById("response");
+            responseElement.textContent = "Thinking...";
+
+            try {
+                const response = await fetch("http://localhost:3000/ask-ai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: userInput })
+                });
+
+                const data = await response.json();
+                responseElement.textContent = "AI: " + data.response;
+            } catch (error) {
+                responseElement.textContent = "Error getting AI response!";
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--
+Deepseek
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+        :root {
+            --primary-color: #7289da;
+            --background-color: #1a1a1a;
+            --card-background: #2d2d2d;
+            --text-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        #chat-box {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        #chat-box:hover {
+            transform: translateY(-2px);
+        }
+
+        #chat-history {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 12px 20px;
+            border-radius: 20px;
+            max-width: 70%;
+            animation: messageAppear 0.3s ease;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background-color: #3d3d3d;
+            margin-right: auto;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        #user-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        #send-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background-color: #5b6eae;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Chatbot</h1>
+    <div id="chat-box">
+        <div id="chat-history"></div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatHistory = document.getElementById("chat-history");
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        function addMessage(message, isUser = true) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            messageDiv.textContent = message;
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        async function handleSend() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, true);
+            userInput.value = '';
+            
+            try {
+                addMessage("Thinking...", false);
+                
+                const response = await fetch("http://localhost:3000/ask-ai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: message })
+                });
+
+                const data = await response.json();
+                chatHistory.lastChild.textContent = "AI: " + data.response;
+            } catch (error) {
+                chatHistory.lastChild.textContent = "Error getting AI response!";
+            }
+        }
+
+        sendBtn.addEventListener("click", handleSend);
+        userInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") handleSend();
+        });
+    </script>
+</body>
+</html>
+-->
