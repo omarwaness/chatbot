@@ -7,7 +7,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 const PORT = 3000;
-const API_KEY = "AIzaSyA8qb3zz3OLxwAgZGOVYh3DdAcU_GJoy_4"; // Replace with your actual API key
+const API_KEY = ""; // Replace with your actual API key
 
 // Middleware
 app.use(cors());
